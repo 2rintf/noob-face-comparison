@@ -14,7 +14,7 @@ encoding_temp = []
 total_dict = {'num':0,'path':[],'encoding':[]}
 # fc.compare_faces()
 true_num_of_pic = 0
-for i in range(0,10):
+for i in range(0,1999):
     print(base_path+'/'+a[i]+'/'+a[i]+'_0001.jpg')
     test_path = base_path+'/'+a[i]+'/'+a[i]+'_0001.jpg'
 
@@ -40,6 +40,6 @@ print(total_dict)
 # indent参数是json用来格式化字典，好看点，数值为0就直接一行。
 json = json.dumps(total_dict,indent=4)
 # print(json)
-fs = open("./data_pic/2000_face_encoding.json",'w+')
+fs = open("./data_pic/1870_face_encoding.json",'w+')
 fs.write(json)
 fs.close()
