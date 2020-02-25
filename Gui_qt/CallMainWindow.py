@@ -5,6 +5,7 @@ from Gui_qt.mainwindow import Ui_MainWindow
 # slot函数修饰符使用
 from PyQt5.Qt import pyqtSlot
 import face_list_compare_func as flcf
+from Gui_qt.CallDialogForAddFace import MyDialogWindow
 
 
 class MyMainWindow(QMainWindow,Ui_MainWindow):
@@ -15,6 +16,7 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         # 把ui布局加载
         self.setupUi(self)
         self.upload_img_path = ""
+
 
 
     '''
@@ -58,9 +60,15 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         result_filae_path = flcf.compare_face_on_json(self.upload_img_path,"../data_pic/1870_face_encoding.json")
         print(result_filae_path)
 
+    @pyqtSlot()
+    def on_addBtnTest_clicked(self):
+        dialog = MyDialogWindow()
+        result = dialog.exec()
+        print(result)
+        print(dialog.addedFace["new_face"])
 
 if  __name__ == "__main__":
     app = QApplication(sys.argv)
     myWin = MyMainWindow()
     myWin.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
