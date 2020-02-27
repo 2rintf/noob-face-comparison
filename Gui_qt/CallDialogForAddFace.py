@@ -16,15 +16,11 @@ class MyDialogWindow(QDialog,Ui_DialogForAddNewFace):
         super(MyDialogWindow,self).__init__()
         # 把ui布局加载
         self.setupUi(self)
+
+        # 输入框内容格式限制
         self.ageEdit.setValidator(QIntValidator())
         self.ageEdit.setMaxLength(3)
         self.phoneEdit.setValidator(QIntValidator())
-
-
-
-
-
-        # todo: 输入框内容格式限制
 
         self.addedFace = {"new_face":
                             {"name":"",
@@ -42,24 +38,40 @@ class MyDialogWindow(QDialog,Ui_DialogForAddNewFace):
     # def static_try():
     #     print("static test")
 
+    def getInput(self):
+        self.addedFace["new_face"]["name"] = self.nameEdit.text()
+        self.addedFace["new_face"]["age"] = int(self.ageEdit.text())
+        self.addedFace["new_face"]["phone"] = int(self.phoneEdit.text())
+        self.addedFace["new_face"]["email"] = self.emailEdit.text()
+
+        if self.femaleRadio.isChecked():
+            self.addedFace["new_face"]["sex"] ="female"
+        elif self.maleRadio.isChecked():
+            self.addedFace["new_face"]["sex"] = "male"
+
     '''
     pyqt的槽函数必须加修饰符，否则会重复执行两次.
     记得导入pyqtSlot.
     '''
 
+
     @pyqtSlot()
-    def buttonBox_clicked(self):
-        # print(self.buttonBox.clicked())
-        print("button box test")
-        # MyDialogWindow.static_try()
+    def on_OkBtn_clicked(self):
+        if self.nameEdit.text()=="" or self.phoneEdit.text()=="" or self.emailEdit.text()=="" or (self.femaleRadio.isChecked()==self.maleRadio.isChecked())\
+                or self.addedFace["new_face"]["face_pic_path"]=="":
+            msg = QMessageBox()
+            msg.setWindowTitle("警告")
+            msg.setText("姓名、手机、email字段不能为空！")
+            msg.exec()
+        else:
+            self.getInput()
+            self.addedFace["new_face"]["face_encoding"] = list(flcf.add_new_face_encoding(self.addedFace["new_face"]["face_pic_path"]))
 
-        print(self.buttonBox.getContentsMargins())
+            self.accept()
 
-        print(QPushButton(QDialogButtonBox.button(self.buttonBox,QDialogButtonBox.Ok)))
-
-        print("--------------")
-        # print(button)
-        print("--------------")
+    @pyqtSlot()
+    def on_CancelBtn_clicked(self):
+        self.reject()
 
     @pyqtSlot()
     def on_selectNewFaceBtn_clicked(self):

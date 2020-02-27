@@ -57,8 +57,8 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         print("start match.")
         print(self.upload_img_path)
         # 注意此处的相对路径问题，要退回上一级目录，所以用"../"。
-        result_filae_path = flcf.compare_face_on_json(self.upload_img_path,"../data_pic/1870_face_encoding.json")
-        print(result_filae_path)
+        result_file_path = flcf.compare_face_on_json(self.upload_img_path,"../data_pic/1870_face_encoding.json")
+        print(result_file_path)
 
     @pyqtSlot()
     def on_addBtnTest_clicked(self):

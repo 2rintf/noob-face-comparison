@@ -4,7 +4,7 @@ import time
 import json
 
 
-def compare_face_on_json(face_img_path,json_path):
+def compare_face_on_json(face_img_path, json_path):
     '''
     此函数将上传的人脸encoding，然后与存储在json文件上的
     已经encoding的人脸进行比较，将结果按欧氏距离从低到高排序，
@@ -62,3 +62,17 @@ def read_result_from_json():
     读取结果文件，返回排序列表。
     :return:
     '''
+
+
+
+
+def add_new_face_encoding(pic_path):
+    '''
+    用于给新上传的人脸进行编码
+    :param pic_path:
+    :return: 编码的128维矩阵
+    '''
+    unknown_image = fc.load_image_file(pic_path)
+    unknown_encoding = fc.face_encodings(unknown_image)[0]
+
+    return unknown_encoding
