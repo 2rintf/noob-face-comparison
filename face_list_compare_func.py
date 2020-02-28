@@ -18,7 +18,7 @@ def compare_face_on_json(face_img_path, json_path):
     '''
 
     try:
-        fs = open(json_path, 'r+')
+        fs = open(json_path, 'r')
     except OSError:
         return "123"
     pic_dict = json.load(fs)
@@ -47,7 +47,7 @@ def compare_face_on_json(face_img_path, json_path):
     result = [list(i) for i in result]
 
     result_sorted = sorted(result, key=(lambda x: x[1]), reverse=False)
-    print(result_sorted)
+    # print(result_sorted)
     json_data = json.dumps(result_sorted, indent=4)
     save_file_path = "../data_pic/v2_compare_result_" + str(time.ctime()).replace(' ', '_') + ".json"
     fs = open(save_file_path, 'w+')
@@ -56,12 +56,31 @@ def compare_face_on_json(face_img_path, json_path):
     return save_file_path
 
 
-def read_result_from_json():
+def read_result_from_json(result_path):
     '''
     todo:
     读取结果文件，返回排序列表。
     :return:
     '''
+    try:
+        fs = open(result_path, 'r')
+    except OSError:
+        return "123"
+    result_list = json.load(fs)
+    counter = 0
+    five_best_results = []
+    for [pic_path, distance] in result_list:
+        if counter==5:
+            break
+        else:
+            print("------------------")
+            print(pic_path)
+            print(distance)
+            print("------------------")
+            five_best_results.append([pic_path, distance])
+
+        counter+=1
+    return five_best_results
 
 
 

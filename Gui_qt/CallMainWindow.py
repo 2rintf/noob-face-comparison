@@ -33,9 +33,7 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
                                                          "选取文件",
                                                          "..",
                                                          "Image Files(*.jpg *.png)")
-
         print(fileName)
-        print(fileType)
 
         if fileName=="":
             print("Null file name.")
@@ -59,6 +57,21 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         # 注意此处的相对路径问题，要退回上一级目录，所以用"../"。
         result_file_path = flcf.compare_face_on_json(self.upload_img_path,"../data_pic/1870_face_encoding.json")
         print(result_file_path)
+
+        #todo:读取结果文件，展示前5名的图片与信息
+        five_best_results = flcf.read_result_from_json(result_file_path)
+        print(five_best_results)
+        # for one_result in five_best_results:
+        #     # 此处注意相对路径，所以要在读到的路径上再返回上一层。
+        #     img_cv = cv.imread("."+one_result[0])
+        #     img_qt = cv.cvtColor(img_cv, cv.COLOR_BGR2RGB)
+        #
+        #     img_qt = cv.resize(img_qt, (self.matched_pic1.width(), self.selectedPic.height()))
+        #     height, width, depth = img_qt.shape
+        #     img_qt = QImage(img_qt.data, width, height, depth * width, QImage.Format_RGB888)
+        #     # self.selectedPic.setScaledContents(True)
+        #     self.selectedPic.setPixmap(QPixmap.fromImage(img_qt))
+
 
     @pyqtSlot()
     def on_addBtnTest_clicked(self):
