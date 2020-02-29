@@ -78,7 +78,6 @@ def compare_face_on_json(face_img_path, json_path):
 
 def read_result_from_json(result_path, encoding_json_path):
     '''
-    todo:
     读取结果文件，返回排序列表。
     :return:
     '''
