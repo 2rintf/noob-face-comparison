@@ -21,30 +21,50 @@ def compare_face_on_json(face_img_path, json_path):
         fs = open(json_path, 'r')
     except OSError:
         return "123"
-    pic_dict = json.load(fs)
-
-    pic_num = pic_dict['num']
-    pic_list = pic_dict['path']
-    pic_encoding_list = pic_dict['encoding']
+    total_dict = json.load(fs)
 
     distance_list = []
-    name_list = []
+    # path_list = []
+    index_list = []
 
     counter = 0
 
     unknown_image = fc.load_image_file(face_img_path)
     unknown_encoding = fc.face_encodings(unknown_image)[0]
-    for pic_encoding in pic_encoding_list:
-        distance = fc.face_distance([pic_encoding], unknown_encoding)
+
+    for i in range(total_dict.__len__()):
+        distance = fc.face_distance([total_dict[str(i+1)]['encoding']], unknown_encoding)
         distance_list.append(float(distance))
-        name_list.append(pic_list[counter])  # 后面改成正则提取名字
-        print(pic_list[counter])
+        index_list.append(total_dict[str(i+1)]['index'])
+
+        print(str(index_list[counter])+" matching...")
         print("done.")
+
         counter += 1
 
-    # 把名字和分数绑成二维数组用于排序
-    result = zip(name_list, distance_list)
+    result = zip(index_list, distance_list)
     result = [list(i) for i in result]
+
+# ######################################################
+#     pic_num = pic_dict['num']
+#     pic_list = pic_dict['path']
+#     pic_encoding_list = pic_dict['encoding']
+#
+#
+#
+#
+#     for pic_encoding in pic_encoding_list:
+#         distance = fc.face_distance([pic_encoding], unknown_encoding)
+#         distance_list.append(float(distance))
+#         name_list.append(pic_list[counter])  # 后面改成正则提取名字
+#         print(pic_list[counter])
+#         print("done.")
+#         counter += 1
+#
+#     # 把名字和分数绑成二维数组用于排序
+#     result = zip(name_list, distance_list)
+#     result = [list(i) for i in result]
+########################################################
 
     result_sorted = sorted(result, key=(lambda x: x[1]), reverse=False)
     # print(result_sorted)
@@ -56,7 +76,7 @@ def compare_face_on_json(face_img_path, json_path):
     return save_file_path
 
 
-def read_result_from_json(result_path):
+def read_result_from_json(result_path, encoding_json_path):
     '''
     todo:
     读取结果文件，返回排序列表。
@@ -67,19 +87,54 @@ def read_result_from_json(result_path):
     except OSError:
         return "123"
     result_list = json.load(fs)
+    fs.close()
+
+
+    try:
+        fs = open(encoding_json_path, 'r')
+    except OSError:
+        return "123"
+
+    total_dict = json.load(fs)
+    fs.close()
+
     counter = 0
     five_best_results = []
-    for [pic_path, distance] in result_list:
+
+
+
+    for [index, distance] in result_list:
         if counter==5:
             break
         else:
             print("------------------")
-            print(pic_path)
+            print(index)
             print(distance)
             print("------------------")
-            five_best_results.append([pic_path, distance])
+            temp = {'name':total_dict[str(index)]['name'],
+                    'sex':total_dict[str(index)]['sex'],
+                    'age':total_dict[str(index)]['age'],
+                    'phone':total_dict[str(index)]['phone'],
+                    'email':total_dict[str(index)]['email'],
+                    'pic_path':total_dict[str(index)]['path']
+            }
+            five_best_results.append(temp.copy())
 
         counter+=1
+#####################################################
+# for [pic_path, distance] in result_list:
+#     if counter==5:
+#         break
+#     else:
+#         print("------------------")
+#         print(pic_path)
+#         print(distance)
+#         print("------------------")
+#         five_best_results.append([pic_path, distance])
+#
+#     counter+=1
+#
+#####################################################
     return five_best_results
 
 

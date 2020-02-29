@@ -11,6 +11,8 @@ a = os.listdir(base_path)
 # print(len(a))
 # print(a[0:3])
 
+counter = 0
+
 total = []
 encoding_temp = []
 total_dict = {}
@@ -31,9 +33,11 @@ for i in range(0,3000):
         print('     more than 1 face. Pass.')
         continue
 
+    counter+=1
+
     info_dict['path'] = test_path
     info_dict['encoding'] = list(fc.face_encodings(img)[0])
-    info_dict['index'] = i
+    info_dict['index'] = counter
 
     # 名字正则化匹配获取
     pat = re.compile(r'/(.*)/(.*?)_0001.jpg')
@@ -60,7 +64,7 @@ for i in range(0,3000):
     info_dict['sex'] = random.choice(["male","female"])
 
     #!! 此处字典必须深拷贝一下，否则total_dict中的字典总在跟随info_dict变化
-    total_dict[i] = info_dict.copy()
+    total_dict[counter] = info_dict.copy()
     print('     done.')
 
 
@@ -73,6 +77,6 @@ print(total_dict)
 # indent参数是json用来格式化字典，好看点，数值为0就直接一行。
 json = json.dumps(total_dict,indent=4)
 # print(json)
-fs = open("./data_pic/2000_face_encoding_v2.json",'w+')
+fs = open("./data_pic/3000_face_encoding_v2.json",'w+')
 fs.write(json)
 fs.close()

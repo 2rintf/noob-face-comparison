@@ -57,11 +57,12 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         print("start match.")
         print(self.upload_img_path)
         # 注意此处的相对路径问题，要退回上一级目录，所以用"../"。
-        result_file_path = flcf.compare_face_on_json(self.upload_img_path,"../data_pic/1870_face_encoding.json")
+        # todo：解决数据库路径是否可由用于选择的问题
+        result_file_path = flcf.compare_face_on_json(self.upload_img_path,"../data_pic/3000_face_encoding_v2.json")
         print(result_file_path)
 
         #todo:读取结果文件，展示前5名的图片与信息
-        self.five_best_results = flcf.read_result_from_json(result_file_path)
+        self.five_best_results = flcf.read_result_from_json(result_file_path, "../data_pic/3000_face_encoding_v2.json")
         print(self.five_best_results)
         # for one_result in five_best_results:
         #     # 此处注意相对路径，所以要在读到的路径上再返回上一层。
@@ -74,33 +75,33 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         #     # self.selectedPic.setScaledContents(True)
         #     self.selectedPic.setPixmap(QPixmap.fromImage(img_qt))
 
-    @pyqtSlot()
-    def on_firstBtn_clicked(self):
-
-        return
-
-
-    @pyqtSlot()
-    def on_secondBtn_clicked(self):
-
-
-
-        return
-
-    @pyqtSlot()
-    def on_thirdBtn_clicked(self):
-        return
-
-
-    @pyqtSlot()
-    def on_fourthBtn_clicked(self):
-        return
-
-
-    @pyqtSlot()
-    def on_fifthBtn_clicked(self):
-        return
-
+    # @pyqtSlot()
+    # def on_firstBtn_clicked(self):
+    #
+    #     return
+    #
+    #
+    # @pyqtSlot()
+    # def on_secondBtn_clicked(self):
+    #
+    #
+    #
+    #     return
+    #
+    # @pyqtSlot()
+    # def on_thirdBtn_clicked(self):
+    #     return
+    #
+    #
+    # @pyqtSlot()
+    # def on_fourthBtn_clicked(self):
+    #     return
+    #
+    #
+    # @pyqtSlot()
+    # def on_fifthBtn_clicked(self):
+    #     return
+    #
 
 
     @pyqtSlot()
