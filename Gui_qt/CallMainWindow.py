@@ -15,7 +15,9 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         super(MyMainWindow,self).__init__()
         # 把ui布局加载
         self.setupUi(self)
+        self.setWindowTitle("相似人脸匹配demo---By zd_Chen")
         self.upload_img_path = ""
+        self.five_best_results = ""
 
 
 
@@ -59,8 +61,8 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         print(result_file_path)
 
         #todo:读取结果文件，展示前5名的图片与信息
-        five_best_results = flcf.read_result_from_json(result_file_path)
-        print(five_best_results)
+        self.five_best_results = flcf.read_result_from_json(result_file_path)
+        print(self.five_best_results)
         # for one_result in five_best_results:
         #     # 此处注意相对路径，所以要在读到的路径上再返回上一层。
         #     img_cv = cv.imread("."+one_result[0])
@@ -71,6 +73,34 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         #     img_qt = QImage(img_qt.data, width, height, depth * width, QImage.Format_RGB888)
         #     # self.selectedPic.setScaledContents(True)
         #     self.selectedPic.setPixmap(QPixmap.fromImage(img_qt))
+
+    @pyqtSlot()
+    def on_firstBtn_clicked(self):
+
+        return
+
+
+    @pyqtSlot()
+    def on_secondBtn_clicked(self):
+
+
+
+        return
+
+    @pyqtSlot()
+    def on_thirdBtn_clicked(self):
+        return
+
+
+    @pyqtSlot()
+    def on_fourthBtn_clicked(self):
+        return
+
+
+    @pyqtSlot()
+    def on_fifthBtn_clicked(self):
+        return
+
 
 
     @pyqtSlot()
