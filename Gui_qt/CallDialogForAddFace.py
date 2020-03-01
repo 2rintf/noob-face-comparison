@@ -16,6 +16,7 @@ class MyDialogWindow(QDialog,Ui_DialogForAddNewFace):
         super(MyDialogWindow,self).__init__()
         # 把ui布局加载
         self.setupUi(self)
+        self.setWindowTitle("添加新人脸信息")
 
         # 输入框内容格式限制
         self.ageEdit.setValidator(QIntValidator())

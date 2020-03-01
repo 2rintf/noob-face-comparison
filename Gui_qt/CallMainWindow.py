@@ -51,6 +51,15 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
             # self.selectedPic.setScaledContents(True)
             self.selectedPic.setPixmap(QPixmap.fromImage(img_qt))
 
+            # 清空结果信息展示
+            self.five_best_results=""
+            self.nameShow.clear()
+            self.sexShow.clear()
+            self.ageShow.clear()
+            self.phoneShow.clear()
+            self.emailShow.clear()
+            self.matchedPicShow.clear()
+
 
     @pyqtSlot()
     def on_matchBtn_clicked(self):
@@ -64,6 +73,26 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         #todo:读取结果文件，展示前5名的图片与信息
         self.five_best_results = flcf.read_result_from_json(result_file_path, "../data_pic/3000_face_encoding_v2.json")
         print(self.five_best_results)
+
+        # 图像显示
+        img_cv = cv.imread("." + self.five_best_results[0]['pic_path'])
+        img_qt = cv.cvtColor(img_cv, cv.COLOR_BGR2RGB)
+
+        img_qt = cv.resize(img_qt, (self.matchedPicShow.width(), self.matchedPicShow.height()))
+        height, width, depth = img_qt.shape
+        img_qt = QImage(img_qt.data, width, height, depth * width, QImage.Format_RGB888)
+        # self.selectedPic.setScaledContents(True)
+        self.matchedPicShow.setPixmap(QPixmap.fromImage(img_qt))
+
+        #第一名信息显示
+        self.nameShow.setText(self.five_best_results[0]['name'])
+        self.sexShow.setText(self.five_best_results[0]['sex'])
+        self.ageShow.setText(str(self.five_best_results[0]['age']))
+        self.phoneShow.setText(str(self.five_best_results[0]['phone']))
+        self.emailShow.setText(self.five_best_results[0]['email'])
+
+
+
         # for one_result in five_best_results:
         #     # 此处注意相对路径，所以要在读到的路径上再返回上一层。
         #     img_cv = cv.imread("."+one_result[0])
@@ -75,33 +104,105 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         #     # self.selectedPic.setScaledContents(True)
         #     self.selectedPic.setPixmap(QPixmap.fromImage(img_qt))
 
-    # @pyqtSlot()
-    # def on_firstBtn_clicked(self):
-    #
-    #     return
-    #
-    #
-    # @pyqtSlot()
-    # def on_secondBtn_clicked(self):
-    #
-    #
-    #
-    #     return
-    #
-    # @pyqtSlot()
-    # def on_thirdBtn_clicked(self):
-    #     return
-    #
-    #
-    # @pyqtSlot()
-    # def on_fourthBtn_clicked(self):
-    #     return
-    #
-    #
-    # @pyqtSlot()
-    # def on_fifthBtn_clicked(self):
-    #     return
-    #
+    @pyqtSlot()
+    def on_firstBtn_clicked(self):
+        # 图像显示
+        img_cv = cv.imread("." + self.five_best_results[0]['pic_path'])
+        img_qt = cv.cvtColor(img_cv, cv.COLOR_BGR2RGB)
+
+        img_qt = cv.resize(img_qt, (self.matchedPicShow.width(), self.matchedPicShow.height()))
+        height, width, depth = img_qt.shape
+        img_qt = QImage(img_qt.data, width, height, depth * width, QImage.Format_RGB888)
+        # self.selectedPic.setScaledContents(True)
+        self.matchedPicShow.setPixmap(QPixmap.fromImage(img_qt))
+
+        # 第一名信息显示
+        self.nameShow.setText(self.five_best_results[0]['name'])
+        self.sexShow.setText(self.five_best_results[0]['sex'])
+        self.ageShow.setText(str(self.five_best_results[0]['age']))
+        self.phoneShow.setText(str(self.five_best_results[0]['phone']))
+        self.emailShow.setText(self.five_best_results[0]['email'])
+
+
+
+    @pyqtSlot()
+    def on_secondBtn_clicked(self):
+        # 图像显示
+        img_cv = cv.imread("." + self.five_best_results[1]['pic_path'])
+        img_qt = cv.cvtColor(img_cv, cv.COLOR_BGR2RGB)
+
+        img_qt = cv.resize(img_qt, (self.matchedPicShow.width(), self.matchedPicShow.height()))
+        height, width, depth = img_qt.shape
+        img_qt = QImage(img_qt.data, width, height, depth * width, QImage.Format_RGB888)
+        # self.selectedPic.setScaledContents(True)
+        self.matchedPicShow.setPixmap(QPixmap.fromImage(img_qt))
+
+        # 第一名信息显示
+        self.nameShow.setText(self.five_best_results[1]['name'])
+        self.sexShow.setText(self.five_best_results[1]['sex'])
+        self.ageShow.setText(str(self.five_best_results[1]['age']))
+        self.phoneShow.setText(str(self.five_best_results[1]['phone']))
+        self.emailShow.setText(self.five_best_results[1]['email'])
+
+    @pyqtSlot()
+    def on_thirdBtn_clicked(self):
+        # 图像显示
+        img_cv = cv.imread("." + self.five_best_results[2]['pic_path'])
+        img_qt = cv.cvtColor(img_cv, cv.COLOR_BGR2RGB)
+
+        img_qt = cv.resize(img_qt, (self.matchedPicShow.width(), self.matchedPicShow.height()))
+        height, width, depth = img_qt.shape
+        img_qt = QImage(img_qt.data, width, height, depth * width, QImage.Format_RGB888)
+        # self.selectedPic.setScaledContents(True)
+        self.matchedPicShow.setPixmap(QPixmap.fromImage(img_qt))
+
+        # 第一名信息显示
+        self.nameShow.setText(self.five_best_results[2]['name'])
+        self.sexShow.setText(self.five_best_results[2]['sex'])
+        self.ageShow.setText(str(self.five_best_results[2]['age']))
+        self.phoneShow.setText(str(self.five_best_results[2]['phone']))
+        self.emailShow.setText(self.five_best_results[2]['email'])
+
+
+    @pyqtSlot()
+    def on_fourthBtn_clicked(self):
+        # 图像显示
+        img_cv = cv.imread("." + self.five_best_results[3]['pic_path'])
+        img_qt = cv.cvtColor(img_cv, cv.COLOR_BGR2RGB)
+
+        img_qt = cv.resize(img_qt, (self.matchedPicShow.width(), self.matchedPicShow.height()))
+        height, width, depth = img_qt.shape
+        img_qt = QImage(img_qt.data, width, height, depth * width, QImage.Format_RGB888)
+        # self.selectedPic.setScaledContents(True)
+        self.matchedPicShow.setPixmap(QPixmap.fromImage(img_qt))
+
+        # 第一名信息显示
+        self.nameShow.setText(self.five_best_results[3]['name'])
+        self.sexShow.setText(self.five_best_results[3]['sex'])
+        self.ageShow.setText(str(self.five_best_results[3]['age']))
+        self.phoneShow.setText(str(self.five_best_results[3]['phone']))
+        self.emailShow.setText(self.five_best_results[3]['email'])
+
+
+    @pyqtSlot()
+    def on_fifthBtn_clicked(self):
+        # 图像显示
+        img_cv = cv.imread("." + self.five_best_results[4]['pic_path'])
+        img_qt = cv.cvtColor(img_cv, cv.COLOR_BGR2RGB)
+
+        img_qt = cv.resize(img_qt, (self.matchedPicShow.width(), self.matchedPicShow.height()))
+        height, width, depth = img_qt.shape
+        img_qt = QImage(img_qt.data, width, height, depth * width, QImage.Format_RGB888)
+        # self.selectedPic.setScaledContents(True)
+        self.matchedPicShow.setPixmap(QPixmap.fromImage(img_qt))
+
+        # 第一名信息显示
+        self.nameShow.setText(self.five_best_results[4]['name'])
+        self.sexShow.setText(self.five_best_results[4]['sex'])
+        self.ageShow.setText(str(self.five_best_results[4]['age']))
+        self.phoneShow.setText(str(self.five_best_results[4]['phone']))
+        self.emailShow.setText(self.five_best_results[4]['email'])
+
 
 
     @pyqtSlot()
