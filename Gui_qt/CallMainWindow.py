@@ -6,7 +6,8 @@ from Gui_qt.mainwindow import Ui_MainWindow
 from PyQt5.Qt import pyqtSlot
 import face_list_compare_func as flcf
 from Gui_qt.CallDialogForAddFace import MyDialogWindow
-
+import json
+# import shutil
 
 class MyMainWindow(QMainWindow,Ui_MainWindow):
 
@@ -36,6 +37,7 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
                                                          "..",
                                                          "Image Files(*.jpg *.png)")
         print(fileName)
+
 
         if fileName=="":
             print("Null file name.")
@@ -70,7 +72,7 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         result_file_path = flcf.compare_face_on_json(self.upload_img_path,"../data_pic/3000_face_encoding_v2.json")
         print(result_file_path)
 
-        #todo:读取结果文件，展示前5名的图片与信息
+        #读取结果文件，展示前5名的图片与信息
         self.five_best_results = flcf.read_result_from_json(result_file_path, "../data_pic/3000_face_encoding_v2.json")
         print(self.five_best_results)
 
@@ -211,6 +213,30 @@ class MyMainWindow(QMainWindow,Ui_MainWindow):
         result = dialog.exec()
         print(result)
         print(dialog.addedFace["new_face"])
+        if result:
+            temp_dict = dialog.addedFace["new_face"]
+
+            try:
+                fs = open("../data_pic/3000_face_encoding_v2.json", 'r')
+            except OSError:
+                return "File open error!"
+            total_dict = json.load(fs)
+            fs.close()
+            index = total_dict.__len__()
+            temp_dict['index'] = index + 1
+            total_dict[str(index+1)] = temp_dict.copy()
+
+            try:
+                fs = open("../data_pic/3000_face_encoding_v2.json", 'w')
+            except OSError:
+                return "File open error!"
+            new_json = json.dumps(total_dict, indent=4)
+            fs.write(new_json)
+            fs.close()
+
+
+
+
 
 if  __name__ == "__main__":
     app = QApplication(sys.argv)

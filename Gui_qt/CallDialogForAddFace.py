@@ -6,6 +6,7 @@ from PyQt5.Qt import *
 from PyQt5.Qt import pyqtSlot
 import face_list_compare_func as flcf
 from Gui_qt.dialogforaddnewface import Ui_DialogForAddNewFace
+import shutil
 
 
 
@@ -24,13 +25,14 @@ class MyDialogWindow(QDialog,Ui_DialogForAddNewFace):
         self.phoneEdit.setValidator(QIntValidator())
 
         self.addedFace = {"new_face":
-                            {"name":"",
+                            {"index":0,
+                             "name":"",
                              "sex":"",
                              "age":0,
                              "phone":0,
                              "email":"",
-                             "face_encoding":[],
-                             "face_pic_path":""
+                             "encoding":[],
+                             "path":""
                              }}
 
 
@@ -59,14 +61,20 @@ class MyDialogWindow(QDialog,Ui_DialogForAddNewFace):
     @pyqtSlot()
     def on_OkBtn_clicked(self):
         if self.nameEdit.text()=="" or self.phoneEdit.text()=="" or self.emailEdit.text()=="" or (self.femaleRadio.isChecked()==self.maleRadio.isChecked())\
-                or self.addedFace["new_face"]["face_pic_path"]=="":
+                or self.addedFace["new_face"]["path"]=="":
             msg = QMessageBox()
             msg.setWindowTitle("警告")
             msg.setText("姓名、手机、email字段不能为空！")
             msg.exec()
         else:
             self.getInput()
-            self.addedFace["new_face"]["face_encoding"] = list(flcf.add_new_face_encoding(self.addedFace["new_face"]["face_pic_path"]))
+            self.addedFace["new_face"]["encoding"] = list(flcf.add_new_face_encoding(self.addedFace["new_face"]["path"]))
+
+            dst_path = "./data_pic/add_new_face/"
+
+            shutil.copyfile(self.addedFace["new_face"]['path'],"."+dst_path+self.addedFace["new_face"]['name']+".jpg")
+            self.addedFace["new_face"]['path'] = dst_path+self.addedFace["new_face"]['name']+".jpg"
+
 
             self.accept()
 
@@ -84,15 +92,18 @@ class MyDialogWindow(QDialog,Ui_DialogForAddNewFace):
                                                          "..",
                                                          "Image Files(*.jpg *.png)")
 
+
         print(fileName)
         print(fileType)
+
+
 
         if fileName == "":
             print("Null file name.")
         else:
-            self.addedFace["new_face"]["face_pic_path"] = fileName
+            self.addedFace["new_face"]["path"] = fileName
 
-            print(self.addedFace["new_face"]["face_pic_path"])
+            print(self.addedFace["new_face"]["path"])
 
             img_cv = cv.imread(fileName)
             img_qt = cv.cvtColor(img_cv, cv.COLOR_BGR2RGB)
